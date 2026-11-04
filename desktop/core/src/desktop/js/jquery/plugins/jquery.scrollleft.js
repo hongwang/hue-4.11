@@ -75,9 +75,18 @@ Plugin.prototype.setupScrollLeft = function () {
   }
 
   function positionOtherAnchors() {
-    const upPosition = $('#jHueScrollUpAnchor').css('right').replace(/px/gi, '') * 1;
+    const $upAnchor = $('#jHueScrollUpAnchor');
+    // The scroll up anchor only exists after jHueScrollUp was called on some element,
+    // fall back to its default position (right: 20px) when it is not on the page.
+    let upPosition = 20;
+    if ($upAnchor.length > 0) {
+      upPosition = $upAnchor.css('right').replace(/px/gi, '') * 1;
+      if (isNaN(upPosition)) {
+        upPosition = 20;
+      }
+    }
     let right = upPosition - 30;
-    if ($('#jHueScrollUpAnchor').is(':visible')) {
+    if ($upAnchor.is(':visible')) {
       right = upPosition;
     }
 
